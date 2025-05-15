@@ -7,7 +7,11 @@ Route::get('/', function () {
     return view('home');
 });
 
+
+
 Route::get('/posts', [PostController::class, 'index'])->name('posts');
+
+Route::get('/promoted', [PostController::class, 'promoted'])->name('posts.promoted');
 
 Route::get('/posts/{post:slug}', [PostController::class, 'show'])->name('post');
 

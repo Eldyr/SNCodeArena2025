@@ -27,19 +27,11 @@ class PostFactory extends Factory
             'image' => 'https://picsum.photos/id/' . $this->faker->numberBetween(1, 50) . '/800/400',
             'slug' => fake()->slug(),
             'published_at' => now(),
+            'promoted' => false,
 
 
         ];
     }
 
-    //   public function configure(): static
-// {
-//     return $this->afterMaking(function (Post $post) {
-//         // Manually simulate the timestamps that would normally be auto-set on create
-//         $now = now();
-//         $post->created_at = $now;
-//         $post->updated_at = $now;
-//         $post->published_at = $now;
-//     });
-// }
+
 }

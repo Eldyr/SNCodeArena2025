@@ -25,6 +25,8 @@ class DatabaseSeeder extends Seeder
 
 
 
+        // Promote 3 random posts
+        Post::inRandomOrder()->take(3)->update(['promoted' => true]);
     }
 }
 
