@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Post;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,12 +17,29 @@ class PostFactory extends Factory
      */
     public function definition(): array
     {
+
+
+
         return [
             'title' => fake()->sentence(),
             'description' => fake()->paragraph(),
             'body' => fake()->paragraph(10),
             'image' => 'https://picsum.photos/id/' . $this->faker->numberBetween(1, 50) . '/800/400',
             'slug' => fake()->slug(),
+            'published_at' => now(),
+
+
         ];
     }
+
+    //   public function configure(): static
+// {
+//     return $this->afterMaking(function (Post $post) {
+//         // Manually simulate the timestamps that would normally be auto-set on create
+//         $now = now();
+//         $post->created_at = $now;
+//         $post->updated_at = $now;
+//         $post->published_at = $now;
+//     });
+// }
 }

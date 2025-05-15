@@ -6,6 +6,9 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\DB;
+
 
 class BlogTest extends TestCase
 {
@@ -75,6 +78,9 @@ class BlogTest extends TestCase
      */
     public function testBlogPostPageReturns404ForUnpublishedPosts()
     {
+
+
+
         $user = User::factory()->create();
         $post = Post::factory()->create([
             'user_id' => $user->id,
@@ -196,7 +202,7 @@ class BlogTest extends TestCase
             ->assertDontSee($user3->name);
     }
 
-        /**
+    /**
      * Ensure that the promoted posts page contains only promoted posts.
      */
     public function testPromotedPostsPageContainsOnlyPromotedPosts()
@@ -316,6 +322,10 @@ class BlogTest extends TestCase
      */
     public function testBlogPostCommentsAreDisplayedOnPostPageSortedByCreatedAt()
     {
+        DB::listen(function ($query) {
+            Log::info('SQL: ' . $query->sql, $query->bindings);
+        });
+
         $user = User::factory()->create();
         $post = Post::factory()->create([
             'user_id' => $user->id,
@@ -389,8 +399,21 @@ class BlogTest extends TestCase
     /**
      * TOD:Ensure that blog posts page has pagination.
      */
+
     public function testBlogPostsPageHasPagination()
     {
-        $this->markTestIncomplete();
+        $user = User::factory()->create();
+
+        Post::factory()->count(15)->create([
+            'user_id' => $user->id,
+            'published_at' => now(),
+        ]);
+
+        $response = $this->get(route('posts'));
+
+        $response->assertStatus(200)
+            ->assertSee('Next');
     }
+
+
 }
